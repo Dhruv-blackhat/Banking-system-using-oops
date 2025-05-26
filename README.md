@@ -44,30 +44,7 @@ MySQL (Backend DB)
 
 IDE: IntelliJ IDEA / Eclipse
 
-🛠️ Setup Instructions
-Clone this repository:
 
-bash
-Copy
-Edit
-git clone https://github.com/your-username/java-banking-system.git
-Import into your Java IDE (Eclipse/IntelliJ).
-
-Set up the MySQL database:
-
-Create a database named banking_system
-
-Run the schema.sql file located in /db/
-
-Update DB credentials in DBConnection.java:
-
-java
-Copy
-Edit
-String url = "jdbc:mysql://localhost:3306/banking_system";
-String username = "root";
-String password = "your_password";
-Build and run the project using Main.java.
 
 🧩 Database Design
 users (id, name, email, password)
