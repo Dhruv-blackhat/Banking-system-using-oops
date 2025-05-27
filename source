@@ -1,1 +1,151 @@
 
+// src/model/User.java
+public class User {
+    private int id;
+    private String name;
+    private String email;
+    private String password;
+
+    public User(int id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+}
+
+// src/model/Account.java
+public class Account {
+    private int accountId;
+    private int userId;
+    private String accountType;
+    private double balance;
+
+    public Account(int accountId, int userId, String accountType, double balance) {
+        this.accountId = accountId;
+        this.userId = userId;
+        this.accountType = accountType;
+        this.balance = balance;
+    }
+
+    public int getAccountId() { return accountId; }
+    public void setAccountId(int accountId) { this.accountId = accountId; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
+
+    public String getAccountType() { return accountType; }
+    public void setAccountType(String accountType) { this.accountType = accountType; }
+
+    public double getBalance() { return balance; }
+    public void setBalance(double balance) { this.balance = balance; }
+}
+
+// src/model/Transaction.java
+import java.sql.Timestamp;
+
+public class Transaction {
+    private int transactionId;
+    private int accountId;
+    private String type;
+    private double amount;
+    private Timestamp transactionDate;
+
+    public Transaction(int transactionId, int accountId, String type, double amount, Timestamp transactionDate) {
+        this.transactionId = transactionId;
+        this.accountId = accountId;
+        this.type = type;
+        this.amount = amount;
+        this.transactionDate = transactionDate;
+    }
+
+    public int getTransactionId() { return transactionId; }
+    public void setTransactionId(int transactionId) { this.transactionId = transactionId; }
+
+    public int getAccountId() { return accountId; }
+    public void setAccountId(int accountId) { this.accountId = accountId; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
+
+    public Timestamp getTransactionDate() { return transactionDate; }
+    public void setTransactionDate(Timestamp transactionDate) { this.transactionDate = transactionDate; }
+}
+
+// src/dao/DBConnection.java
+import java.sql.*;
+
+public class DBConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/banking_system";
+    private static final String USER = "root";
+    private static final String PASS = "password";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASS);
+    }
+}
+
+// src/dao/UserDAO.java
+import java.sql.*;
+import model.User;
+
+public class UserDAO {
+    public boolean registerUser(User user) {
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public User loginUser(String email, String password) {
+        try (Connection conn = DBConnection.getConnection()) {
+            String query = "SELECT * FROM users WHERE email=? AND password=?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+
+// Main.java
+import javax.swing.*;
+import ui.LoginScreen;
+
+public class Main {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new LoginScreen();
+        });
+    }
+}
+
+// Placeholder UI files can be created as class stubs to complete the folder structure.
