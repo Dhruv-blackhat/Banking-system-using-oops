@@ -1,0 +1,48 @@
+Java class files
+*.class
+
+Logs
+*.log
+
+BlueJ files
+*.ctxt
+
+Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+Package Files
+*.jar
+*.war
+*.ear
+
+Eclipse files
+.project
+.classpath
+.settings/
+
+IntelliJ IDEA files
+.idea/
+*.iml
+out/
+
+NetBeans files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+VS Code
+.vscode/
+
+Mac system files
+.DS_Store
+
+Database dumps or sensitive SQL files 
+db/*.sql.bak
+*.db
+
+
+assets/.tmp
+assets/.bak
